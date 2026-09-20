@@ -128,6 +128,47 @@ class RendererTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Unknown theme"):
                 render.Style.from_file(theme="unknown")
 
+    def test_article_images_preserve_ratio_order_and_pixels(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            Image.new("RGBA", (800, 200), (20, 80, 180, 255)).save(tmp / "wide image.png")
+            Image.new("RGBA", (100, 800), (200, 30, 40, 255)).save(tmp / "tall.png")
+            Image.new("RGBA", (100, 100), (0, 0, 0, 0)).save(tmp / "clear.png")
+            article = tmp / "article.md"
+            article.write_text("开篇文字。" * 50 + "\n\n## 插图\n\n![wide](<wide image.png>)\n\n"
+                               + "中间文字。" * 70 + "\n\n![tall](tall.png)\n\n![clear](clear.png)\n\n结束。", encoding="utf-8")
+            result = render.generate(article, "作者", tmp / "out", font=self.font_path)
+            pictures = []
+            sequence = []
+            for page in result["pages"]:
+                with Image.open(tmp / "out" / page["file"]) as card:
+                    for i, item in enumerate(page["lines"]):
+                        sequence.append(item["block"])
+                        if item["kind"] == "heading":
+                            self.assertEqual(page["lines"][i + 1]["kind"], "image")
+                        if item["kind"] != "image":
+                            continue
+                        pictures.append(item)
+                        self.assertGreaterEqual(item["x"], 76)
+                        self.assertLessEqual(item["x"] + item["width"], 1004)
+                        self.assertLessEqual(item["y"] + item["height"], 1350)
+                        color = {"wide": (20, 80, 180), "tall": (200, 30, 40), "clear": (248, 249, 243)}[item["text"]]
+                        self.assertEqual(card.getpixel((item["x"] + item["width"] // 2, item["y"] + item["height"] // 2)), color)
+            self.assertEqual(sequence, sorted(sequence))
+            self.assertEqual(len(pictures), 3)
+            for picture, ratio in zip(pictures, [4, 0.125, 1]):
+                self.assertAlmostEqual(picture["width"] / picture["height"], ratio, places=2)
+
+    def test_article_images_fail_before_creating_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            article = tmp / "article.md"
+            for path in ["https://example.com/image.png", "../outside.png", "missing.png"]:
+                article.write_text(f"![image]({path})", encoding="utf-8")
+                with self.assertRaises((ValueError, OSError)):
+                    render.generate(article, "作者", tmp / "out", font=self.font_path)
+                self.assertFalse((tmp / "out").exists())
+
 
 if __name__ == "__main__":
     unittest.main()

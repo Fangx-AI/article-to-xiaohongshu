@@ -43,6 +43,7 @@ class Style:
     header_top: int = 68
     name_size: int = 36
     date_size: int = 25
+    image_max_height: int = 520
     background: str = "#F8F9F3"
     foreground: str = "#20221F"
     muted: str = "#7A7E74"
@@ -127,8 +128,15 @@ def parse_article(text):
     for line in text.replace("\r\n", "\n").replace("\r", "\n").split("\n"):
         line = line.strip().expandtabs(4)
         heading = re.match(r"^#{1,3}\s+(.+)$", line)
+        picture = re.match(r"^!\[([^\]]*)\]\((.+)\)$", line)
         if not line:
             flush()
+        elif picture:
+            flush()
+            path = picture.group(2).strip()
+            if path.startswith("<") and path.endswith(">"):
+                path = path[1:-1]
+            blocks.append({"kind": "image", "text": picture.group(1), "path": path})
         elif heading:
             flush()
             blocks.append({"kind": "heading", "text": heading.group(1)})
@@ -170,11 +178,39 @@ def wrap_text(text, font, width):
     return lines
 
 
-def layout(blocks, style, body_font, heading_font):
+def load_article_images(blocks, article):
+    """Load only local images contained in the article directory; never fetch URLs."""
+    base = Path(article).resolve().parent
+    images = {}
+    for index, block in enumerate(blocks):
+        if block["kind"] != "image":
+            continue
+        source = block["path"]
+        path = Path(source)
+        if path.is_absolute() or source.startswith(("/", "\\")) or ":" in source:
+            raise ValueError("Article images must use relative local paths inside the article directory.")
+        resolved = (base / path).resolve()
+        if not resolved.is_relative_to(base):
+            raise ValueError("Article image path escapes the article directory.")
+        with Image.open(resolved) as image:
+            images[index] = ImageOps.exif_transpose(image).convert("RGBA")
+    return images
+
+
+def layout(blocks, style, body_font, heading_font, images=None):
     width = style.width - 2 * style.margin
     limit = style.height - style.bottom
     prepared = []
-    for block in blocks:
+    images = images or {}
+    for block_index, block in enumerate(blocks):
+        if block["kind"] == "image":
+            image = images[block_index]
+            max_height = min(style.image_max_height, limit - max(style.body_top, style.continuation_top))
+            scale = min(width / image.width, max_height / image.height)
+            image_width = max(1, min(width, round(image.width * scale)))
+            image_height = max(1, min(max_height, round(image.height * scale)))
+            prepared.append((block, [image_width], image_height))
+            continue
         heading = block["kind"] == "heading"
         font = heading_font if heading else body_font
         line_height = max(style.line_height, math.ceil(style.heading_size * 1.4)) if heading else style.line_height
@@ -195,6 +231,15 @@ def layout(blocks, style, body_font, heading_font):
 
     capacity = limit - style.continuation_top
     for block_index, (block, lines, line_height) in enumerate(prepared):
+        if block["kind"] == "image":
+            if y + line_height > limit:
+                new_page()
+            image_width = lines[0]
+            pages[-1].append({"kind": "image", "block": block_index, "text": block["text"],
+                              "x": (style.width - image_width) // 2, "y": y,
+                              "width": image_width, "height": line_height})
+            y += line_height + style.paragraph_gap
+            continue
         required = len(lines) * line_height
         if block["kind"] == "heading" and block_index + 1 < len(prepared):
             _, next_lines, next_height = prepared[block_index + 1]
@@ -207,7 +252,7 @@ def layout(blocks, style, body_font, heading_font):
             available = int((limit - y) // line_height)
             if available < 1:
                 new_page()
-                available = int(capacity // line_height)
+                available = int((limit - y) // line_height)
             if available < 1:
                 raise ValueError("Heading or body line does not fit in the canvas.")
             take = min(available, len(lines) - offset)
@@ -259,8 +304,9 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
         raise ValueError("Output directory must be empty or new. Choose a new --output.")
     source = Path(article).read_bytes()
     blocks = parse_article(source.decode("utf-8-sig"))
+    article_images = load_article_images(blocks, article)
     font_path = find_font(font)
-    verify_glyphs(font_path, font_index, "".join(b["text"] for b in blocks) + name + date + "0123456789/")
+    verify_glyphs(font_path, font_index, "".join(b["text"] for b in blocks if b["kind"] != "image") + name + date + "0123456789/")
     fonts = {key: ImageFont.truetype(str(font_path), size, index=font_index) for key, size in {
         "body": style.font_size, "heading": style.heading_size, "name": style.name_size,
         "date": style.date_size, "avatar": style.avatar_size * 3 // 2,
@@ -270,7 +316,7 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
         if selected.getlength(value) > style.width - style.margin - header_x:
             raise ValueError("Name or date is too wide for the header. Shorten it or adjust the style.")
     avatar_image = make_avatar(avatar, name, style.avatar_size, fonts["avatar"], style)
-    pages = layout(blocks, style, fonts["body"], fonts["heading"])
+    pages = layout(blocks, style, fonts["body"], fonts["heading"], article_images)
     output.mkdir(parents=True, exist_ok=True)
     thumbnails = []
     page_data = []
@@ -285,6 +331,10 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
                 draw.text((header_x, style.header_top + style.name_size + 30), date,
                           font=fonts["date"], fill=style.muted, anchor="lt")
         for line in lines:
+            if line["kind"] == "image":
+                picture = article_images[line["block"]].resize((line["width"], line["height"]), Image.Resampling.LANCZOS)
+                card.paste(picture, (line["x"], line["y"]), picture)
+                continue
             selected = fonts[line["kind"]]
             draw.text((line["x"], line["y"]), line["text"], font=selected,
                       fill=style.foreground, anchor="lt")
@@ -302,7 +352,7 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
     for index, thumb in enumerate(thumbnails):
         sheet.paste(thumb, (16 + (index % columns) * (tile_w + 16), 16 + (index // columns) * (tile_h + 16)))
     sheet.save(output / "contact-sheet.jpg", quality=90)
-    manifest = {"schema_version": 1, "source_sha256": hashlib.sha256(source).hexdigest(),
+    manifest = {"schema_version": 2, "source_sha256": hashlib.sha256(source).hexdigest(),
                 "font": font_path.name, "font_index": font_index,
                 "name": name, "date": date, "avatar": "provided" if avatar else "initial-placeholder",
                 "theme": theme, "style": asdict(style), "blocks": blocks, "pages": page_data}
