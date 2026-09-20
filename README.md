@@ -25,13 +25,12 @@
 
 ## 先看成品
 
-**一篇文章 → 四张卡片。** 以下是工具实际生成的图片，点击可查看原图。
+**一篇文章 → 一组卡片。** 以下展示前三张，点击可查看原图。[查看完整四张 →](examples/showcase-article-v1/contact-sheet.jpg)
 
 <p align="center">
-  <a href="examples/showcase-article-v1/01.png"><img src="examples/showcase-article-v1/01.png" width="24%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
-  <a href="examples/showcase-article-v1/02.png"><img src="examples/showcase-article-v1/02.png" width="24%" alt="第 2 张：文章按段落连续排版"></a>
-  <a href="examples/showcase-article-v1/03.png"><img src="examples/showcase-article-v1/03.png" width="24%" alt="第 3 张：可能性过载与主题配图"></a>
-  <a href="examples/showcase-article-v1/04.png"><img src="examples/showcase-article-v1/04.png" width="24%" alt="第 4 张：坚守本心与文章结尾"></a>
+  <a href="examples/showcase-article-v1/01.png"><img src="examples/showcase-article-v1/01.png" width="32%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
+  <a href="examples/showcase-article-v1/02.png"><img src="examples/showcase-article-v1/02.png" width="32%" alt="第 2 张：文章按段落连续排版"></a>
+  <a href="examples/showcase-article-v1/03.png"><img src="examples/showcase-article-v1/03.png" width="32%" alt="第 3 张：可能性过载与主题配图"></a>
 </p>
 
 <p align="center"><sub>1080 × 1440 · 3:4 竖版 · 米白底 · 宋体正文 · 仅首张显示作者信息</sub></p>
