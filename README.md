@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/API_Key-Not_Required-58705B.svg" alt="无需 API Key">
 </p>
 
-[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [让 AI 安装](#复制给-ai让它帮你安装) · [开始使用](#装好后把文章交给它)
+[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [让 AI 安装](#如何安装) · [开始使用](#装好后把文章交给它)
 
 <sub>Turn articles into Xiaohongshu carousel cards. A local renderer and an Agent Skill.</sub>
 
@@ -56,7 +56,7 @@
 
 适合把**观点长文、知识分享、读书笔记、教程说明**整理成连续阅读的卡片。当前主打文字阅读版式。
 
-## 复制给 AI，让它帮你安装
+## 如何安装
 
 把下面这段话直接发给 **Codex、Claude Code、豆包、Workbuddy 等**：
 
@@ -64,8 +64,6 @@
 帮我安装这个 Skill：
 https://github.com/Fangx-AI/article-to-xiaohongshu
 ```
-
-**你负责说需求，Agent 负责准备环境、安装 Skill 和验证效果。** 安装指南已写好：[查看 Agent 安装指南](INSTALL.md)。如果缺少权限或必要环境，Agent 会说明具体阻碍。
 
 ## 装好后，把文章交给它
 
@@ -235,6 +233,6 @@ python -m unittest discover -s tests -v
 
 **把时间留给写作，把重复的排版交给工具。**
 
-[让 AI 帮你安装 ↑](#复制给-ai让它帮你安装)
+[让 AI 帮你安装 ↑](#如何安装)
 
 </div>
