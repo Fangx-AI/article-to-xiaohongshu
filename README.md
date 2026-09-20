@@ -58,14 +58,11 @@
 
 ## 复制给 AI，让它帮你安装
 
-把下面这段话直接发给 **Codex、Claude Code，或其他支持本地文件和命令执行的 AI Agent**：
+把下面这段话直接发给 **Codex、Claude Code、豆包、Workbuddy 等**：
 
 ```text
 帮我安装这个 Skill：
 https://github.com/Fangx-AI/article-to-xiaohongshu
-
-先阅读仓库的 INSTALL.md，按当前环境完成安装、依赖和中文字体检查，
-然后用自带的示例文章生成一组图片给我看。
 ```
 
 **你负责说需求，Agent 负责准备环境、安装 Skill 和验证效果。** 安装指南已写好：[查看 Agent 安装指南](INSTALL.md)。如果缺少权限或必要环境，Agent 会说明具体阻碍。
