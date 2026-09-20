@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/API_Key-Not_Required-58705B.svg" alt="无需 API Key">
 </p>
 
-[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [让 AI 安装](#如何安装) · [开始使用](#如何使用)
+[看效果](#先看成品) · [选择背景](#多种风格) · [让 AI 安装](#如何安装) · [开始使用](#如何使用)
 
 <sub>Turn articles into Xiaohongshu carousel cards. A local renderer and an Agent Skill.</sub>
 
@@ -73,7 +73,7 @@ https://github.com/Fangx-AI/article-to-xiaohongshu
 帮我把这篇文章做成小红书图文。
 ```
 
-## 让每一篇都带着你的风格
+## 多种风格
 
 **同一种阅读排版，六种背景颜色。** 保留宋体、字号、留白、头像位置和分页方式，通过背景选择你喜欢的氛围。
 
