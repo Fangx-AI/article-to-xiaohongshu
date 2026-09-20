@@ -33,6 +33,7 @@ class Style:
     height: int = 1440
     margin: int = 76
     body_top: int = 250
+    continuation_top: int = 76
     bottom: int = 90
     font_size: int = 38
     heading_size: int = 48
@@ -79,6 +80,8 @@ class Style:
             raise ValueError("Header overlaps the body; increase body_top.")
         if self.height - self.bottom - self.body_top < self.line_height * 3:
             raise ValueError("Body must fit at least three lines.")
+        if self.height - self.bottom - self.continuation_top < self.line_height * 3:
+            raise ValueError("Continuation pages must fit at least three lines.")
         if self.bottom < 48:
             raise ValueError("bottom must be at least 48 px for the page number.")
 
@@ -188,9 +191,9 @@ def layout(blocks, style, body_font, heading_font):
         nonlocal y
         if pages[-1]:
             pages.append([])
-        y = style.body_top
+        y = style.body_top if len(pages) == 1 else style.continuation_top
 
-    capacity = limit - style.body_top
+    capacity = limit - style.continuation_top
     for block_index, (block, lines, line_height) in enumerate(prepared):
         required = len(lines) * line_height
         if block["kind"] == "heading" and block_index + 1 < len(prepared):
@@ -274,12 +277,13 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
     for index, lines in enumerate(pages, 1):
         card = Image.new("RGB", (style.width, style.height), style.background)
         draw = ImageDraw.Draw(card)
-        card.paste(avatar_image, (style.margin, style.header_top))
-        name_y = style.header_top + (12 if date else (style.avatar_size - style.name_size) // 2)
-        draw.text((header_x, name_y), name, font=fonts["name"], fill=style.foreground, anchor="lt")
-        if date:
-            draw.text((header_x, style.header_top + style.name_size + 30), date,
-                      font=fonts["date"], fill=style.muted, anchor="lt")
+        if index == 1:
+            card.paste(avatar_image, (style.margin, style.header_top))
+            name_y = style.header_top + (12 if date else (style.avatar_size - style.name_size) // 2)
+            draw.text((header_x, name_y), name, font=fonts["name"], fill=style.foreground, anchor="lt")
+            if date:
+                draw.text((header_x, style.header_top + style.name_size + 30), date,
+                          font=fonts["date"], fill=style.muted, anchor="lt")
         for line in lines:
             selected = fonts[line["kind"]]
             draw.text((line["x"], line["y"]), line["text"], font=selected,

@@ -46,13 +46,17 @@ class RendererTests(unittest.TestCase):
             result = render.generate(article, "测试作者", tmp / "out", avatar=avatar, date="09/20", font=self.font_path)
             self.assertGreater(len(result["pages"]), 2)
             rebuilt = ["" for _ in result["blocks"]]
-            for page in result["pages"]:
+            for page_index, page in enumerate(result["pages"]):
                 with Image.open(tmp / "out" / page["file"]) as image:
                     self.assertEqual(image.size, (1080, 1440))
+                    if page_index > 0:
+                        self.assertEqual(image.getpixel((128, 70)), render.ImageColor.getrgb(result["style"]["background"]))
                 self.assertTrue(page["lines"])
+                expected_top = 250 if page_index == 0 else 76
+                self.assertEqual(page["lines"][0]["y"], expected_top)
                 for line in page["lines"]:
                     rebuilt[line["block"]] += line["text"]
-                    self.assertGreaterEqual(line["y"], 250)
+                    self.assertGreaterEqual(line["y"], expected_top)
                     self.assertLessEqual(line["y"] + line["height"], 1350)
             self.assertEqual(rebuilt, [b["text"] for b in result["blocks"]])
             with zipfile.ZipFile(tmp / "out/cards.zip") as archive:
