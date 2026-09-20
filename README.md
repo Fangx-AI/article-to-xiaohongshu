@@ -28,14 +28,14 @@
 **一篇文章 → 三张卡片。** 以下是工具实际生成的图片，点击可查看原图。
 
 <p align="center">
-  <a href="examples/preview.png"><img src="examples/preview.png" width="32%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
-  <a href="examples/page-02.png"><img src="examples/page-02.png" width="32%" alt="第 2 张：文章按段落连续排版"></a>
-  <a href="examples/page-03.png"><img src="examples/page-03.png" width="32%" alt="第 3 张：文章结尾与页码"></a>
+  <a href="examples/showcase-v2/01.png"><img src="examples/showcase-v2/01.png" width="32%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
+  <a href="examples/showcase-v2/02.png"><img src="examples/showcase-v2/02.png" width="32%" alt="第 2 张：文章按段落连续排版"></a>
+  <a href="examples/showcase-v2/03.png"><img src="examples/showcase-v2/03.png" width="32%" alt="第 3 张：文章结尾与页码"></a>
 </p>
 
 <p align="center"><sub>1080 × 1440 · 3:4 竖版 · 米白底 · 宋体正文 · 仅首张显示作者信息</sub></p>
 
-示例使用猫咪头像，并在正文中加入插图。[查看示例原文 →](examples/article.md)
+示例昵称为「方鑫三个金」，使用作者提供的猫咪头像。[查看示例原文 →](examples/article.md)
 
 **这就是项目的默认版式。** 宋体正文、宽松行距、自然分页。首张显示圆形头像、昵称和可选日期，第二张起直接接正文，利用顶部空间连续阅读。六种背景沿用同一套字体、字号、留白和布局，选择配色即可使用。
 
@@ -77,7 +77,7 @@ https://github.com/Fangx-AI/article-to-xiaohongshu
 
 **同一种阅读排版，六种背景颜色。** 保留宋体、字号、留白、头像位置和分页方式，通过背景选择你喜欢的氛围。
 
-![六种背景配色，同一页内容与排版](examples/themes/comparison.jpg)
+![六种背景配色，同一页内容与排版](examples/showcase-v2/themes.jpg)
 
 | 米白（默认） | 纯白 | 奶油 | 浅绿 | 雾蓝 | 浅粉 |
 | --- | --- | --- | --- | --- | --- |
@@ -91,7 +91,7 @@ https://github.com/Fangx-AI/article-to-xiaohongshu
 <summary><strong>展开：命令行配色与高级参数</strong></summary>
 
 ```bash
-python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "纸上散步" --theme mist --output mist-output
+python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "方鑫三个金" --theme mist --output mist-output
 ```
 
 需要进一步调整时，可以保存一份 JSON 配置。**配置中显式填写的字段优先于主题**；要让 `--theme` 决定背景，请不要在 JSON 中填写 `background`。

@@ -30,12 +30,12 @@
 
 ## 4. 使用安装后的 Skill 实际生成
 
-使用安装后的 `scripts/render.py`、准备好的解释器及仓库中的 `examples/article.md`。保留文章旁的 `assets/` 图片目录。以昵称「纸上散步」、默认米白背景、未显示日期生成到新的输出目录；示例头像使用 `examples/assets/cat.png`。
+使用安装后的 `scripts/render.py`、准备好的解释器及仓库中的 `examples/article.md`。保留文章旁的 `assets/` 图片目录。以昵称「方鑫三个金」、默认米白背景、未显示日期生成到新的输出目录；示例头像使用 `examples/assets/cat.png`。
 
 命令形状如下，实际执行时展开绝对路径并按操作系统正确引用：
 
 ```text
-<python> <installed-skill>/scripts/render.py --article <repo>/examples/article.md --avatar <repo>/examples/assets/cat.png --name "纸上散步" --output <new-output-directory>
+<python> <installed-skill>/scripts/render.py --article <repo>/examples/article.md --avatar <repo>/examples/assets/cat.png --name "方鑫三个金" --output <new-output-directory>
 ```
 
 检查生成结果：
@@ -43,7 +43,6 @@
 - 存在编号 PNG、`contact-sheet.jpg`、`cards.zip` 和 `manifest.json`。
 - 图片为 1080×1440，中文可读，正文无明显截断。
 - 只有首张有头像和昵称，后续页从顶部留白处直接接正文。
-- 正文中的猫咪插图完整显示，比例正确、不被裁切。
 
 查看整组预览和至少一张后续页。不能只凭文件复制成功或依赖安装成功就宣称安装完成。
 
