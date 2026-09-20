@@ -1,0 +1,27 @@
+name: Test renderer
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download test font
+        shell: python
+        run: |
+          import os
+          import pathlib
+          import urllib.request
+          font = pathlib.Path(os.environ['RUNNER_TEMP']) / 'NotoSerifCJK-Regular.ttc'
+          urllib.request.urlretrieve('https://raw.githubusercontent.com/notofonts/noto-cjk/main/Serif/OTC/NotoSerifCJK-Regular.ttc', font)
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as env:
+              env.write(f'ARTICLE_CARDS_FONT={font}\n')
+      - name: Install dependencies
+        run: python -m pip install -r skills/article-to-xiaohongshu/requirements.txt
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
