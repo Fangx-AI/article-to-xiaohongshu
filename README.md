@@ -19,7 +19,7 @@
 
 ## 先看成品
 
-**一篇公众号文章 → 一组小红书卡片。** 以下展示前三张，点击可查看原图。[查看完整四张 →](examples/showcase-article-v1/contact-sheet.jpg)
+**一篇公众号文章 → 一组小红书卡片。**
 
 <p align="center">
   <a href="examples/showcase-article-v1/01.png"><img src="examples/showcase-article-v1/01.png" width="32%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
