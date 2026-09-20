@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import os
+import subprocess
 from pathlib import Path
 import sys
 import tempfile
@@ -79,6 +80,43 @@ class RendererTests(unittest.TestCase):
             config.write_text(json.dumps({"font_sze": 38}), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Unknown style fields"):
                 render.Style.from_file(config)
+
+    def test_invalid_font_reports_actionable_cli_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            bad_font = tmp / "invalid.ttf"
+            bad_font.write_text("not a font", encoding="utf-8")
+            for extra in [["--font", str(bad_font)],
+                          ["--font", str(self.font_path), "--font-index", "-1"],
+                          ["--font", str(self.font_path), "--font-index", "999"]]:
+                result = subprocess.run([sys.executable, str(ROOT / "skills/wenka/scripts/render.py"),
+                                         "--article", str(ROOT / "examples/original-article.md"),
+                                         "--name", "Author", "--output", str(tmp / "out"), *extra],
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("font", result.stderr)
+                self.assertNotIn("Traceback", result.stderr)
+                self.assertFalse((tmp / "out").exists())
+
+    def test_custom_header_and_footer_cannot_overlap_or_clip(self):
+        with self.assertRaisesRegex(ValueError, "Header overlaps"):
+            render.Style(avatar_size=180, name_size=130, date_size=90, body_top=335).validate()
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            config = tmp / "style.json"
+            config.write_text(json.dumps({"date_size": 180, "body_top": 450}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "footer"):
+                render.generate(ROOT / "examples/original-article.md", "作者", tmp / "out",
+                                font=self.font_path, config=config)
+            self.assertFalse((tmp / "out").exists())
+
+    def test_zero_paragraph_gap_preserves_text(self):
+        style = render.Style(paragraph_gap=0)
+        style.validate()
+        blocks = render.parse_article("第一段。\n\n第二段。")
+        pages = render.layout(blocks, style, self.font, self.font)
+        self.assertEqual([line["text"] for line in pages[0]], ["第一段。", "第二段。"])
+        self.assertEqual(pages[0][1]["y"] - pages[0][0]["y"], style.line_height)
 
     def test_square_cards_with_placeholder_and_no_date(self):
         with tempfile.TemporaryDirectory() as tmp:

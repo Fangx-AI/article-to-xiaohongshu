@@ -8,8 +8,8 @@
 
 仓库：`https://github.com/Fangx-AI/wenka`
 
-- 将仓库克隆或下载到工作目录。已有本项目时先检查状态，保留用户修改。
-- 阅读 `skills/wenka/SKILL.md` 和 `requirements.txt`。
+- 将仓库浅克隆（`git clone --depth 1`）或下载到工作目录。已有本项目时先检查状态，保留用户修改。
+- 阅读 `skills/wenka/SKILL.md` 和 `skills/wenka/requirements.txt`。
 - 安装单元是完整的 `skills/wenka` 文件夹，不是整个仓库，也不只是 `SKILL.md`。
 - 优先使用当前 Agent 已配置的技能目录和用户指定的位置。Codex 默认位置为 `${CODEX_HOME}/skills/wenka`（未设置时为 `~/.codex/skills/wenka`）；Claude Code 的用户级位置为 `~/.claude/skills/wenka`。其他工具使用其实际支持的目录。
 - 遇到已有同名技能，先比较内容；保留本地修改，不直接覆盖。需要替换时先保存可恢复的副本。

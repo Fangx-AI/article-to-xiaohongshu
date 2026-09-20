@@ -27,7 +27,7 @@ UTF-8 JSON 对象；未填写字段沿用默认值。未知字段报错，避免
 | font_size | 38 | 正文字号 |
 | heading_size | 48 | 标题字号 |
 | line_height | 62 | 正文行高 |
-| paragraph_gap | 34 | 段落额外间距 |
+| paragraph_gap | 34 | 段落额外间距，可设为 0 |
 | avatar_size | 104 | 头像直径 |
 | header_top | 68 | 头像顶部 |
 | name_size | 36 | 昵称字号 |

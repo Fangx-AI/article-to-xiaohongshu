@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 import zipfile
 
-from fontTools.ttLib import TTFont
+from fontTools.ttLib import TTFont, TTLibError
 from PIL import Image, ImageColor, ImageDraw, ImageFont, ImageOps
 
 
@@ -69,6 +69,9 @@ class Style:
                 if not isinstance(value, str):
                     raise ValueError(f"{key} must be a color string.")
                 ImageColor.getrgb(value)
+            elif key == "paragraph_gap":
+                if type(value) is not int or value < 0:
+                    raise ValueError("paragraph_gap must be a nonnegative integer.")
             elif type(value) is not int or value <= 0:
                 raise ValueError(f"{key} must be a positive integer.")
         if self.width > 4096 or self.height > 4096:
@@ -77,7 +80,7 @@ class Style:
             raise ValueError("line_height must be at least 1.15 times font_size.")
         if self.width - 2 * self.margin < self.heading_size * 3:
             raise ValueError("Canvas is too narrow for the configured margins and font.")
-        if self.body_top < self.header_top + max(self.avatar_size, self.name_size + self.date_size + 20) + 24:
+        if self.body_top < self.header_top + max(self.avatar_size, self.name_size + self.date_size + 30) + 24:
             raise ValueError("Header overlaps the body; increase body_top.")
         if self.height - self.bottom - self.body_top < self.line_height * 3:
             raise ValueError("Body must fit at least three lines.")
@@ -107,9 +110,14 @@ def find_font(explicit=None):
 
 
 def verify_glyphs(font_path, index, text):
-    with TTFont(str(font_path), fontNumber=index, lazy=True) as font:
-        cmap = font.getBestCmap() or {}
-        missing = sorted({char for char in text if not char.isspace() and ord(char) not in cmap})
+    if type(index) is not int or index < 0:
+        raise ValueError("font_index must be a nonnegative integer.")
+    try:
+        with TTFont(str(font_path), fontNumber=index, lazy=True) as font:
+            cmap = font.getBestCmap() or {}
+            missing = sorted({char for char in text if not char.isspace() and ord(char) not in cmap})
+    except TTLibError as exc:
+        raise ValueError(f"Cannot read font; check --font and --font-index: {exc}") from exc
     if missing:
         shown = " ".join(f"{char} (U+{ord(char):04X})" for char in missing[:16])
         raise ValueError(f"Font is missing characters: {shown}. Choose another --font or revise the text.")
@@ -326,6 +334,22 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
             raise ValueError("Name or date is too wide for the header. Shorten it or adjust the style.")
     avatar_image = make_avatar(avatar, name, style.avatar_size, fonts["avatar"], style)
     pages = layout(blocks, style, fonts["body"], fonts["heading"], article_images)
+    # Check actual ink bounds, including customized header and footer fonts.
+    name_y = style.header_top + (12 if date else (style.avatar_size - style.name_size) // 2)
+    header_items = [(name, fonts["name"], name_y)]
+    if date:
+        header_items.append((date, fonts["date"], style.header_top + style.name_size + 30))
+    for value, selected, top in header_items:
+        left, upper, right, lower = selected.getbbox(value, anchor="lt")
+        if (header_x + left < style.margin or header_x + right > style.width - style.margin
+                or top + upper < 0 or top + lower + 24 > style.body_top):
+            raise ValueError("Header text exceeds its area; adjust name_size, date_size or body_top.")
+    for index in range(1, len(pages) + 1):
+        left, upper, right, lower = fonts["date"].getbbox(f"{index} / {len(pages)}", anchor="mm")
+        center_x, center_y = style.width / 2, style.height - style.bottom / 2
+        if (center_x + left < style.margin or center_x + right > style.width - style.margin
+                or center_y + upper < style.height - style.bottom or center_y + lower > style.height):
+            raise ValueError("Page number exceeds the footer; increase bottom or reduce date_size.")
     output.mkdir(parents=True, exist_ok=True)
     thumbnails = []
     page_data = []
@@ -334,7 +358,6 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
         draw = ImageDraw.Draw(card)
         if index == 1:
             card.paste(avatar_image, (style.margin, style.header_top))
-            name_y = style.header_top + (12 if date else (style.avatar_size - style.name_size) // 2)
             draw.text((header_x, name_y), name, font=fonts["name"], fill=style.foreground, anchor="lt")
             if date:
                 draw.text((header_x, style.header_top + style.name_size + 30), date,
