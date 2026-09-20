@@ -36,6 +36,8 @@ python scripts/render.py --article /path/article.md --name "作者昵称" --avat
 
 在实际调用中将脚本和 requirements 路径展开为绝对路径。图片由 Pillow 排版，无需浏览器、模型 API 或网络上传。头像只从本地文件读取。
 
+若技能目录内已有 `.venv`，优先使用其中的解释器执行渲染（Windows：`.venv/Scripts/python.exe`；macOS / Linux：`.venv/bin/python`），不要切换到缺少依赖的系统 Python。已安装且可用的依赖无需每次重复安装。
+
 字体需在执行环境可用。脚本优先发现 Windows 宋体、macOS 宋体和 Linux Noto CJK；也可用 `--font /path/font.ttf` 指定。字体缺字时脚本报错，换用覆盖相应文字的字体，不接受方框字成品。字体分发权须单独核实，不将系统字体复制进仓库。
 
 使用 `--config /path/style.json` 覆盖尺寸、字号、行距和颜色等；字段见 [references/config.md](references/config.md)。用户指定比例优先。不要为了减少页数持续缩小字号；优先增加分页。

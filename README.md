@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/API_Key-Not_Required-58705B.svg" alt="无需 API Key">
 </p>
 
-[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [开始使用](#跑出你的第一组图) · [安装 Skill](#让-ai-帮你完成这件事)
+[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [让 AI 安装](#复制给-ai让它帮你安装) · [开始使用](#装好后把文章交给它)
 
 <sub>Turn articles into Xiaohongshu carousel cards. A local renderer and an Agent Skill.</sub>
 
@@ -56,76 +56,58 @@
 
 适合把**观点长文、知识分享、读书笔记、教程说明**整理成连续阅读的卡片。当前主打文字阅读版式。
 
-## 跑出你的第一组图
+## 复制给 AI，让它帮你安装
 
-需要 **Python 3.10+** 和一款中文字体。Windows / macOS 会尝试寻找系统宋体；Linux 字体设置见下方 FAQ。
+把下面这段话直接发给 **Codex、Claude Code，或其他支持本地文件和命令执行的 AI Agent**：
 
-**① 下载项目，安装依赖**
+```text
+帮我安装这个 Skill：
+https://github.com/Fangx-AI/article-to-xiaohongshu
+
+先阅读仓库的 INSTALL.md，按当前环境完成安装、依赖和中文字体检查，
+然后用自带的示例文章生成一组图片给我看。
+```
+
+**你负责说需求，Agent 负责准备环境、安装 Skill 和验证效果。** 安装指南已写好：[查看 Agent 安装指南](INSTALL.md)。如果缺少权限或必要环境，Agent 会说明具体阻碍。
+
+## 装好后，把文章交给它
+
+附上文章和头像，再复制这段话：
+
+```text
+使用 article-to-xiaohongshu，把这篇文章做成小红书图文。
+昵称：你的昵称
+头像：使用我提供的图片
+背景：米白
+保留原文，使用默认宋体排版，不显示日期。
+完成后给我整组图片、预览和压缩包。
+```
+
+不提供头像时用昵称首字占位。头像和昵称只出现在第一张，第二张起直接接正文。
+
+之后换文章，直接继续使用；想换颜色，告诉它「这次用雾蓝背景」即可。
+
+<details>
+<summary><strong>喜欢自己动手？展开手动安装与命令行用法</strong></summary>
+
+需要 Python 3.10+ 和中文字体。Windows / macOS 会尝试寻找系统宋体，Linux 字体设置见下方 FAQ。建议在虚拟环境中安装依赖。
 
 ```bash
 git clone https://github.com/Fangx-AI/article-to-xiaohongshu.git
 cd article-to-xiaohongshu
 python -m pip install -r skills/article-to-xiaohongshu/requirements.txt
+python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "纸上散步" --output demo-output
 ```
 
-**② 先用自带文章跑一次**
+替换为自己的文章与头像：
 
 ```bash
-python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "纸上散步" --date "09/20" --output demo-output
+python skills/article-to-xiaohongshu/scripts/render.py --article article.md --avatar avatar.jpg --name "你的昵称" --theme paper --output my-first-post
 ```
 
-打开 `demo-output`：`01.png` 开始就是正文图片，`contact-sheet.jpg` 可以一次看完整组，`cards.zip` 已帮你打包好。
+将 `skills/article-to-xiaohongshu` 整个文件夹复制到 Agent 的技能目录即可安装为 Skill。Codex 默认使用 `~/.codex/skills/`（设置了 `CODEX_HOME` 时使用其下的 `skills/`）；Claude Code 使用 `~/.claude/skills/`。自定义位置按实际配置处理。
 
-**③ 换成你的文章和头像**
-
-把 `article.md` 和 `avatar.jpg` 放进项目目录，修改昵称，再执行：
-
-```bash
-python skills/article-to-xiaohongshu/scripts/render.py --article article.md --avatar avatar.jpg --name "你的昵称" --output my-first-post
-```
-
-不传 `--date` 就不显示日期；不传 `--avatar` 就用昵称首字占位。每次生成请使用**新的或空的输出目录**。
-
-## 让 AI 帮你完成这件事
-
-这个项目也提供一个独立的 **Agent Skill**。安装后，可以直接把文章和要求交给支持 `SKILL.md` 的 AI 工具。
-
-> 使用 article-to-xiaohongshu，把这篇文章做成小红书图文。<br>
-> 头像用 avatar.jpg，昵称「纸上散步」。<br>
-> 3:4 竖版，保留原文，不显示日期。完成后给我图片和压缩包。
-
-未指定配色时使用米白；想换背景，只需补一句「背景用浅绿，保持默认字体和排版」。
-
-将 [`skills/article-to-xiaohongshu`](skills/article-to-xiaohongshu) 整个文件夹放入对应工具的技能目录：
-
-| 工具 | 目标目录 |
-| --- | --- |
-| Codex | `~/.codex/skills/article-to-xiaohongshu` |
-| Claude Code | `~/.claude/skills/article-to-xiaohongshu` |
-| 其他支持 Skill 的工具 | 按工具自身的技能目录配置 |
-
-<details>
-<summary><strong>展开：Codex 安装命令</strong></summary>
-
-在本仓库根目录执行。若目标位置已有同名 Skill，请先检查再更新。
-
-**macOS / Linux**
-
-```bash
-mkdir -p ~/.codex/skills
-cp -R skills/article-to-xiaohongshu ~/.codex/skills/
-python -m pip install -r ~/.codex/skills/article-to-xiaohongshu/requirements.txt
-```
-
-**Windows PowerShell**
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE/.codex/skills" | Out-Null
-Copy-Item -Recurse "skills/article-to-xiaohongshu" "$env:USERPROFILE/.codex/skills/"
-python -m pip install -r "$env:USERPROFILE/.codex/skills/article-to-xiaohongshu/requirements.txt"
-```
-
-依赖应安装到 Agent 实际使用的 Python 环境中；自定义了技能目录时，请相应调整路径。
+输出目录必须为空或不存在。未传 `--date` 时不显示日期；未传 `--avatar` 时生成昵称首字占位头像。更多安装与验证细节见 [INSTALL.md](INSTALL.md)。
 
 </details>
 
@@ -139,13 +121,16 @@ python -m pip install -r "$env:USERPROFILE/.codex/skills/article-to-xiaohongshu/
 | --- | --- | --- | --- | --- | --- |
 | `paper` | `white` | `cream` | `sage` | `mist` | `rose` |
 
-例如，生成雾蓝背景：
+直接告诉 Agent：
+
+> 这次用雾蓝背景，保持原来的宋体和排版。
+
+<details>
+<summary><strong>展开：命令行配色与高级参数</strong></summary>
 
 ```bash
 python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "纸上散步" --theme mist --output mist-output
 ```
-
-使用 Skill 时，也可以直接说「用雾蓝背景，保持原来的宋体和排版」。
 
 需要进一步调整时，可以保存一份 JSON 配置。**配置中显式填写的字段优先于主题**；要让 `--theme` 决定背景，请不要在 JSON 中填写 `background`。
 
@@ -167,6 +152,8 @@ python skills/article-to-xiaohongshu/scripts/render.py --article article.md --na
 ```
 
 [查看全部配置项：尺寸、留白、头像、字号、行距与颜色 →](skills/article-to-xiaohongshu/references/config.md)
+
+</details>
 
 ## 使用前，你可能想知道
 
@@ -251,6 +238,6 @@ python -m unittest discover -s tests -v
 
 **把时间留给写作，把重复的排版交给工具。**
 
-[开始生成第一组图 ↑](#跑出你的第一组图)
+[让 AI 帮你安装 ↑](#复制给-ai让它帮你安装)
 
 </div>
