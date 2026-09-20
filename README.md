@@ -2,10 +2,10 @@
 
 # 文卡 · Wenka
 
-### 文章写好了，别卡在排版上。
+### 将公众号文章转为小红书卡片。
 
-把一篇长文，变成一组带头像、有留白、翻页也好读的图文卡片。<br>
-保留你的文字，让排版自动完成。<br>
+公众号写完一篇，小红书还要重新排版？<br>
+保留原文，自动分页，生成一组可发布的图文卡片。<br>
 <strong>统一宋体阅读排版 · 六种背景可选 · 默认米白</strong>
 
 <p>
@@ -17,7 +17,7 @@
 
 [看效果](#先看成品) · [选择背景](#风格选择) · [让 AI 安装](#如何安装) · [开始使用](#如何使用)
 
-<sub>Turn articles into Xiaohongshu carousel cards. A local renderer and an Agent Skill.</sub>
+<sub>Turn WeChat Official Account articles into Xiaohongshu carousel cards. A local renderer and an Agent Skill.</sub>
 
 </div>
 
@@ -25,7 +25,7 @@
 
 ## 先看成品
 
-**一篇文章 → 一组卡片。** 以下展示前三张，点击可查看原图。[查看完整四张 →](examples/showcase-article-v1/contact-sheet.jpg)
+**一篇公众号文章 → 一组小红书卡片。** 以下展示前三张，点击可查看原图。[查看完整四张 →](examples/showcase-article-v1/contact-sheet.jpg)
 
 <p align="center">
   <a href="examples/showcase-article-v1/01.png"><img src="examples/showcase-article-v1/01.png" width="32%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
@@ -44,7 +44,7 @@
 | 希望生成后方便整理 | 同时输出按顺序编号的 PNG、整组预览和图片 ZIP |
 | 不想再申请一个 API Key | 排版在本地运行，不调用图片生成 API，不上传文章或头像 |
 
-适合把**观点长文、知识分享、读书笔记、教程说明**整理成连续阅读的卡片。当前主打文字阅读版式。
+适合将公众号里的**观点长文、知识分享、读书笔记、教程说明**同步为小红书卡片。
 
 ## 如何安装
 
@@ -57,10 +57,10 @@ https://github.com/Fangx-AI/wenka
 
 ## 如何使用
 
-发给 AI 一篇文章，说一句：
+把公众号文章正文发给 AI，说一句：
 
 ```text
-用 wenka 把这篇文章做成小红书图文。
+用 wenka 把这篇公众号文章转成小红书卡片。
 ```
 
 ## 风格选择
