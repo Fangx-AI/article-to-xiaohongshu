@@ -10,7 +10,7 @@ import zipfile
 from PIL import Image, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("render", ROOT / "skills/article-to-xiaohongshu/scripts/render.py")
+SPEC = importlib.util.spec_from_file_location("render", ROOT / "skills/wenka/scripts/render.py")
 render = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = render
 SPEC.loader.exec_module(render)

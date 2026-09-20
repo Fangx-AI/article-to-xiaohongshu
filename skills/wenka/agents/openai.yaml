@@ -1,0 +1,4 @@
+interface:
+  display_name: "文卡 · Wenka"
+  short_description: "将文章自动排版成带头像、昵称和日期的高清小红书分页图文卡片"
+  default_prompt: "使用 $wenka 将这篇文章排版为带头像和昵称的 3:4 小红书图文，保留原文。"

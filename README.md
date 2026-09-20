@@ -1,6 +1,6 @@
 <div align="center">
 
-# 文章转小红书
+# 文卡 · Wenka
 
 ### 文章写好了，别卡在排版上。
 
@@ -9,7 +9,7 @@
 <strong>统一宋体阅读排版 · 六种背景可选 · 默认米白</strong>
 
 <p>
-  <a href="https://github.com/Fangx-AI/article-to-xiaohongshu/actions/workflows/test.yml"><img src="https://github.com/Fangx-AI/article-to-xiaohongshu/actions/workflows/test.yml/badge.svg" alt="跨平台测试"></a>
+  <a href="https://github.com/Fangx-AI/wenka/actions/workflows/test.yml"><img src="https://github.com/Fangx-AI/wenka/actions/workflows/test.yml/badge.svg" alt="跨平台测试"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-58705B.svg" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/Python-3.10%2B-58705B.svg" alt="Python 3.10 or newer">
   <img src="https://img.shields.io/badge/API_Key-Not_Required-58705B.svg" alt="无需 API Key">
@@ -57,7 +57,7 @@
 
 ```text
 帮我安装这个 Skill：
-https://github.com/Fangx-AI/article-to-xiaohongshu
+https://github.com/Fangx-AI/wenka
 ```
 
 ## 如何使用
@@ -65,7 +65,7 @@ https://github.com/Fangx-AI/article-to-xiaohongshu
 发给 AI 一篇文章，说一句：
 
 ```text
-帮我把这篇文章做成小红书图文。
+用 wenka 把这篇文章做成小红书图文。
 ```
 
 ## 风格选择
@@ -86,7 +86,7 @@ https://github.com/Fangx-AI/article-to-xiaohongshu
 <summary><strong>展开：命令行配色与高级参数</strong></summary>
 
 ```bash
-python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "方鑫三个金" --theme mist --output mist-output
+python skills/wenka/scripts/render.py --article examples/article.md --name "方鑫三个金" --theme mist --output mist-output
 ```
 
 需要进一步调整时，可以保存一份 JSON 配置。**配置中显式填写的字段优先于主题**；要让 `--theme` 决定背景，请不要在 JSON 中填写 `background`。
@@ -105,10 +105,10 @@ python skills/article-to-xiaohongshu/scripts/render.py --article examples/articl
 仓库已提供 [`examples/style.json`](examples/style.json)，在生成时加上 `--config` 即可：
 
 ```bash
-python skills/article-to-xiaohongshu/scripts/render.py --article article.md --name "你的昵称" --config examples/style.json --output styled-output
+python skills/wenka/scripts/render.py --article article.md --name "你的昵称" --config examples/style.json --output styled-output
 ```
 
-[查看全部配置项：尺寸、留白、头像、字号、行距与颜色 →](skills/article-to-xiaohongshu/references/config.md)
+[查看全部配置项：尺寸、留白、头像、字号、行距与颜色 →](skills/wenka/references/config.md)
 
 </details>
 
@@ -146,7 +146,7 @@ sudo apt-get install fonts-noto-cjk
 也可以指定本地字体文件：
 
 ```bash
-python skills/article-to-xiaohongshu/scripts/render.py --article article.md --name "作者" --font /path/to/font.ttc --font-index 0 --output custom-font-output
+python skills/wenka/scripts/render.py --article article.md --name "作者" --font /path/to/font.ttc --font-index 0 --output custom-font-output
 ```
 
 字体缺字时脚本会报错，请换用覆盖所需文字的字体。当前不支持多字体回退和彩色 emoji。仓库不捆绑系统字体，使用或再分发字体时请遵循其许可证。
@@ -187,7 +187,7 @@ my-first-post/
 python -m unittest discover -s tests -v
 ```
 
-发现排版问题？欢迎[提交 Issue](https://github.com/Fangx-AI/article-to-xiaohongshu/issues)，附上一小段可复现的脱敏文字、字体和配置。也欢迎用 Pull Request 改进排版或补充测试。
+发现排版问题？欢迎[提交 Issue](https://github.com/Fangx-AI/wenka/issues)，附上一小段可复现的脱敏文字、字体和配置。也欢迎用 Pull Request 改进排版或补充测试。
 
 **[MIT 开源](LICENSE)** · 可修改、复用和用于商业项目，请保留许可证声明。文章、头像及字体的使用权需自行确认。本项目与小红书官方无关联。
 

@@ -1,17 +1,17 @@
 # 给 AI Agent 的安装指南
 
-目标：将 `article-to-xiaohongshu` 安装到当前 Agent 可发现的技能目录，准备可运行的 Python 环境，并实际生成一组示例图片。用户无需手动复制命令。
+目标：将 `wenka` 安装到当前 Agent 可发现的技能目录，准备可运行的 Python 环境，并实际生成一组示例图片。用户无需手动复制命令。
 
 本指南用于用户明确要求安装本项目的场景。根据当前工具、操作系统和已有环境选择安装方式，不假定所有聊天工具都能操作本地文件或执行命令。
 
 ## 1. 获取项目和确定安装位置
 
-仓库：`https://github.com/Fangx-AI/article-to-xiaohongshu`
+仓库：`https://github.com/Fangx-AI/wenka`
 
 - 将仓库克隆或下载到工作目录。已有本项目时先检查状态，保留用户修改。
-- 阅读 `skills/article-to-xiaohongshu/SKILL.md` 和 `requirements.txt`。
-- 安装单元是完整的 `skills/article-to-xiaohongshu` 文件夹，不是整个仓库，也不只是 `SKILL.md`。
-- 优先使用当前 Agent 已配置的技能目录和用户指定的位置。Codex 默认位置为 `${CODEX_HOME}/skills/article-to-xiaohongshu`（未设置时为 `~/.codex/skills/article-to-xiaohongshu`）；Claude Code 的用户级位置为 `~/.claude/skills/article-to-xiaohongshu`。其他工具使用其实际支持的目录。
+- 阅读 `skills/wenka/SKILL.md` 和 `requirements.txt`。
+- 安装单元是完整的 `skills/wenka` 文件夹，不是整个仓库，也不只是 `SKILL.md`。
+- 优先使用当前 Agent 已配置的技能目录和用户指定的位置。Codex 默认位置为 `${CODEX_HOME}/skills/wenka`（未设置时为 `~/.codex/skills/wenka`）；Claude Code 的用户级位置为 `~/.claude/skills/wenka`。其他工具使用其实际支持的目录。
 - 遇到已有同名技能，先比较内容；保留本地修改，不直接覆盖。需要替换时先保存可恢复的副本。
 
 ## 2. 准备运行环境
@@ -50,6 +50,6 @@
 
 向用户提供示例预览和输出位置，简要说明安装位置和可直接复制的使用提示词：
 
-> 使用 article-to-xiaohongshu，把这篇文章做成小红书图文。昵称「我的昵称」，头像用我提供的图片，保留原文，米白背景。
+> 用 wenka 把这篇文章做成小红书图文。
 
 如当前 Agent 需要新会话或重新加载才能发现新增 Skill，按该工具的实际行为提示用户。无需让用户重新执行已经完成的安装命令。
