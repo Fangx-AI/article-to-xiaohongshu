@@ -78,34 +78,6 @@ https://github.com/Fangx-AI/article-to-xiaohongshu
 完成后给我整组图片、预览和压缩包。
 ```
 
-不提供头像时用昵称首字占位。头像和昵称只出现在第一张，第二张起直接接正文。
-
-之后换文章，直接继续使用；想换颜色，告诉它「这次用雾蓝背景」即可。
-
-<details>
-<summary><strong>喜欢自己动手？展开手动安装与命令行用法</strong></summary>
-
-需要 Python 3.10+ 和中文字体。Windows / macOS 会尝试寻找系统宋体，Linux 字体设置见下方 FAQ。建议在虚拟环境中安装依赖。
-
-```bash
-git clone https://github.com/Fangx-AI/article-to-xiaohongshu.git
-cd article-to-xiaohongshu
-python -m pip install -r skills/article-to-xiaohongshu/requirements.txt
-python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "纸上散步" --output demo-output
-```
-
-替换为自己的文章与头像：
-
-```bash
-python skills/article-to-xiaohongshu/scripts/render.py --article article.md --avatar avatar.jpg --name "你的昵称" --theme paper --output my-first-post
-```
-
-将 `skills/article-to-xiaohongshu` 整个文件夹复制到 Agent 的技能目录即可安装为 Skill。Codex 默认使用 `~/.codex/skills/`（设置了 `CODEX_HOME` 时使用其下的 `skills/`）；Claude Code 使用 `~/.claude/skills/`。自定义位置按实际配置处理。
-
-输出目录必须为空或不存在。未传 `--date` 时不显示日期；未传 `--avatar` 时生成昵称首字占位头像。更多安装与验证细节见 [INSTALL.md](INSTALL.md)。
-
-</details>
-
 ## 让每一篇都带着你的风格
 
 **同一种阅读排版，六种背景颜色。** 保留宋体、字号、留白、头像位置和分页方式，通过背景选择你喜欢的氛围。
