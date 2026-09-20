@@ -29,14 +29,18 @@
 
 <p align="center"><sub>1080 × 1440 · 3:4 竖版 · 米白底 · 宋体正文 · 仅首张显示作者信息</sub></p>
 
-| 功能 | 效果 |
-| --- | --- |
-| 自动分页 | 长文自动排成多张卡片 |
-| 保留原文 | 不删减，不改写 |
-| 连贯阅读 | 统一排版，仅首张显示作者信息 |
-| 个性样式 | 自定义头像、昵称，六种背景可选 |
-| 整组导出 | 高清 PNG、预览图、ZIP 压缩包 |
-| 本地生成 | 无需 API Key，渲染器不上传内容 |
+<table width="100%">
+  <tr>
+    <td width="333" valign="top"><strong>自动分页</strong><br>长文自动排成多张卡片</td>
+    <td width="333" valign="top"><strong>保留原文</strong><br>不删减，不改写</td>
+    <td width="333" valign="top"><strong>连贯阅读</strong><br>统一排版，首张展示作者</td>
+  </tr>
+  <tr>
+    <td width="333" valign="top"><strong>个性样式</strong><br>自定义头像、昵称与六种背景</td>
+    <td width="333" valign="top"><strong>整组导出</strong><br>高清 PNG、预览图、ZIP</td>
+    <td width="333" valign="top"><strong>本地生成</strong><br>无需 API Key，渲染器不上传内容</td>
+  </tr>
+</table>
 
 适合将公众号里的**观点长文、知识分享、读书笔记、教程说明**同步为小红书卡片。
 
