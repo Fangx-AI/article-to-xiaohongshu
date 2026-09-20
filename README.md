@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/API_Key-Not_Required-58705B.svg" alt="无需 API Key">
 </p>
 
-[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [让 AI 安装](#如何安装) · [开始使用](#装好后把文章交给它)
+[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [让 AI 安装](#如何安装) · [开始使用](#如何使用)
 
 <sub>Turn articles into Xiaohongshu carousel cards. A local renderer and an Agent Skill.</sub>
 
@@ -65,7 +65,7 @@
 https://github.com/Fangx-AI/article-to-xiaohongshu
 ```
 
-## 装好后，把文章交给它
+## 如何使用
 
 发给 AI 一篇文章，说一句：
 
