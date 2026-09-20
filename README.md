@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="examples/assets/wenka-cover.png" width="100%" alt="文卡 · Wenka：将公众号文章转为小红书卡片，保留原文、自动分页、极简排版">
+<img src="examples/assets/wenka-cover-v2.png" width="100%" alt="文卡 · Wenka：将公众号文章转为小红书卡片，保留原文、自动分页、极简排版">
 
 <p>
   <a href="https://github.com/Fangx-AI/wenka/actions/workflows/test.yml"><img src="https://github.com/Fangx-AI/wenka/actions/workflows/test.yml/badge.svg" alt="跨平台测试"></a>
