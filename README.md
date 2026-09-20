@@ -5,7 +5,8 @@
 ### 文章写好了，别卡在排版上。
 
 把一篇长文，变成一组带头像、有留白、翻页也好读的图文卡片。<br>
-保留你的文字，让排版自动完成。
+保留你的文字，让排版自动完成。<br>
+<strong>统一宋体阅读排版 · 六种背景可选 · 默认米白</strong>
 
 <p>
   <a href="https://github.com/Fangx-AI/article-to-xiaohongshu/actions/workflows/test.yml"><img src="https://github.com/Fangx-AI/article-to-xiaohongshu/actions/workflows/test.yml/badge.svg" alt="跨平台测试"></a>
@@ -14,7 +15,7 @@
   <img src="https://img.shields.io/badge/API_Key-Not_Required-58705B.svg" alt="无需 API Key">
 </p>
 
-[看效果](#先看成品) · [开始使用](#跑出你的第一组图) · [安装 Skill](#让-ai-帮你完成这件事) · [调整风格](#让每一篇都带着你的风格)
+[看效果](#先看成品) · [选择背景](#让每一篇都带着你的风格) · [开始使用](#跑出你的第一组图) · [安装 Skill](#让-ai-帮你完成这件事)
 
 <sub>Turn articles into Xiaohongshu carousel cards. A local renderer and an Agent Skill.</sub>
 
@@ -36,6 +37,8 @@
 
 示例使用昵称首字作为头像。换成你的头像文件，就能使用同样的圆形头像排版。[查看示例原文 →](examples/article.md)
 
+**这就是项目的默认版式。** 宋体正文、宽松行距、自然分页，保留圆形头像和昵称。六种背景沿用同一套字体、字号、留白和布局，选择配色即可使用。
+
 ## 从「写完了」到「可以发了」
 
 文章有了，观点也讲清楚了，接下来却要反复复制文字、调整字号、拆成几页，再把头像和昵称摆到相同的位置。
@@ -47,7 +50,7 @@
 | 文字多了，一张放不下 | 按实际字体宽度换行、按可用高度分页，长文自动变成多张 |
 | 不想为了凑页数删掉内容 | 默认保留原文，不擅自改写，不靠不断缩小字号挤进一页 |
 | 翻到下一张，风格不能变 | 统一尺寸、字体和留白，每页重复头像、昵称及可选日期 |
-| 想让图片有自己的辨识度 | 头像、昵称、背景色、字号、行距和尺寸都可配置 |
+| 想让图片有自己的辨识度 | 换上自己的头像和昵称，从米白、纯白、奶油、浅绿、雾蓝、浅粉中选择背景 |
 | 希望生成后方便整理 | 同时输出按顺序编号的 PNG、整组预览和图片 ZIP |
 | 不想再申请一个 API Key | 排版在本地运行，不调用图片生成 API，不上传文章或头像 |
 
@@ -90,6 +93,8 @@ python skills/article-to-xiaohongshu/scripts/render.py --article article.md --av
 > 使用 article-to-xiaohongshu，把这篇文章做成小红书图文。<br>
 > 头像用 avatar.jpg，昵称「纸上散步」。<br>
 > 3:4 竖版，保留原文，不显示日期。完成后给我图片和压缩包。
+
+未指定配色时使用米白；想换背景，只需补一句「背景用浅绿，保持默认字体和排版」。
 
 将 [`skills/article-to-xiaohongshu`](skills/article-to-xiaohongshu) 整个文件夹放入对应工具的技能目录：
 
