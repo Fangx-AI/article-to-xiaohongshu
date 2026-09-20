@@ -107,6 +107,15 @@ class RendererTests(unittest.TestCase):
                 if line["kind"] == "heading":
                     self.assertGreaterEqual(len(page) - index - 1, 2)
 
+    def test_long_title_breaks_at_clause_without_losing_text(self):
+        title = "焦虑不再来源于能力不足，来源于可能性过载"
+        heading_font = ImageFont.truetype(str(self.font_path), 48)
+        pages = render.layout([{"kind": "heading", "text": title}], render.Style(), self.font, heading_font)
+        lines = pages[0]
+        self.assertEqual("".join(line["text"] for line in lines), title)
+        self.assertEqual(len(lines), 2)
+        self.assertTrue(lines[0]["text"].endswith("，"))
+
     def test_background_themes_preserve_layout(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)

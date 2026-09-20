@@ -25,17 +25,18 @@
 
 ## 先看成品
 
-**一篇文章 → 三张卡片。** 以下是工具实际生成的图片，点击可查看原图。
+**一篇文章 → 四张卡片。** 以下是工具实际生成的图片，点击可查看原图。
 
 <p align="center">
-  <a href="examples/showcase-v2/01.png"><img src="examples/showcase-v2/01.png" width="32%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
-  <a href="examples/showcase-v2/02.png"><img src="examples/showcase-v2/02.png" width="32%" alt="第 2 张：文章按段落连续排版"></a>
-  <a href="examples/showcase-v2/03.png"><img src="examples/showcase-v2/03.png" width="32%" alt="第 3 张：文章结尾与页码"></a>
+  <a href="examples/showcase-article-v1/01.png"><img src="examples/showcase-article-v1/01.png" width="24%" alt="第 1 张：头像、昵称、日期与文章开篇"></a>
+  <a href="examples/showcase-article-v1/02.png"><img src="examples/showcase-article-v1/02.png" width="24%" alt="第 2 张：文章按段落连续排版"></a>
+  <a href="examples/showcase-article-v1/03.png"><img src="examples/showcase-article-v1/03.png" width="24%" alt="第 3 张：可能性过载与主题配图"></a>
+  <a href="examples/showcase-article-v1/04.png"><img src="examples/showcase-article-v1/04.png" width="24%" alt="第 4 张：坚守本心与文章结尾"></a>
 </p>
 
 <p align="center"><sub>1080 × 1440 · 3:4 竖版 · 米白底 · 宋体正文 · 仅首张显示作者信息</sub></p>
 
-示例昵称为「方鑫三个金」，使用作者提供的猫咪头像。[查看示例原文 →](examples/article.md)
+示例：《焦虑不再来源于能力不足，来源于可能性过载》。昵称「方鑫三个金」，使用作者提供的头像；文字保留原文，正文配图由 AI 生成。[查看原文 →](examples/original-article.md)
 
 **这就是项目的默认版式。** 宋体正文、宽松行距、自然分页。首张显示圆形头像、昵称和可选日期，第二张起直接接正文，利用顶部空间连续阅读。六种背景沿用同一套字体、字号、留白和布局，选择配色即可使用。
 
@@ -77,7 +78,7 @@ https://github.com/Fangx-AI/article-to-xiaohongshu
 
 **同一种阅读排版，六种背景颜色。** 保留宋体、字号、留白、头像位置和分页方式，通过背景选择你喜欢的氛围。
 
-![六种背景配色，同一页内容与排版](examples/showcase-v2/themes.jpg)
+![六种背景配色，同一页内容与排版](examples/showcase-article-v1/themes.jpg)
 
 | 米白（默认） | 纯白 | 奶油 | 浅绿 | 雾蓝 | 浅粉 |
 | --- | --- | --- | --- | --- | --- |

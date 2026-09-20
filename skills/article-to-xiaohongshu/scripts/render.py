@@ -215,6 +215,15 @@ def layout(blocks, style, body_font, heading_font, images=None):
         font = heading_font if heading else body_font
         line_height = max(style.line_height, math.ceil(style.heading_size * 1.4)) if heading else style.line_height
         lines = wrap_text(block["text"], font, width)
+        if heading and len(lines) == 2 and font.getlength(lines[-1]) < width * 0.4:
+            # Prefer a clause boundary over stranding a few title characters.
+            title = block["text"]
+            splits = [(title[:i + 1], title[i + 1:]) for i, char in enumerate(title)
+                      if char in "，：；、,;:" and i + 1 < len(title)]
+            splits = [(left, right) for left, right in splits
+                      if font.getlength(left) <= width and font.getlength(right) <= width]
+            if splits:
+                lines = list(min(splits, key=lambda pair: abs(font.getlength(pair[0]) - font.getlength(pair[1]))))
         for line in lines:
             bbox = font.getbbox(line, anchor="lt")
             if bbox[3] > line_height or bbox[2] > width:
