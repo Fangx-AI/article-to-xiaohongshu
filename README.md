@@ -64,7 +64,7 @@ https://github.com/Fangx-AI/wenka
 
 ## 风格选择
 
-**同一种阅读排版，六种背景颜色。** 保留宋体、字号、留白、头像位置和分页方式，通过背景选择你喜欢的氛围。
+**六种背景，同一套宋体排版。**
 
 ![六种背景配色，同一页内容与排版](examples/showcase-article-v1/themes.jpg)
 
@@ -72,125 +72,65 @@ https://github.com/Fangx-AI/wenka
 | --- | --- | --- | --- | --- | --- |
 | `paper` | `white` | `cream` | `sage` | `mist` | `rose` |
 
-直接告诉 Agent：
+换色只需说：
 
-> 这次用雾蓝背景，保持原来的宋体和排版。
+> 这次用雾蓝背景。
 
 <details>
-<summary><strong>展开：命令行配色与高级参数</strong></summary>
+<summary><strong>高级设置</strong></summary>
 
-```bash
-python skills/wenka/scripts/render.py --article examples/article.md --name "方鑫三个金" --theme mist --output mist-output
-```
+`--theme` 换背景，`--config` 调整尺寸、字体和留白。配置文件中的值优先。
 
-需要进一步调整时，可以保存一份 JSON 配置。**配置中显式填写的字段优先于主题**；要让 `--theme` 决定背景，请不要在 JSON 中填写 `background`。
-
-```json
-{
-  "width": 1080,
-  "height": 1440,
-  "font_size": 38,
-  "line_height": 62,
-  "background": "#F8F9F3",
-  "foreground": "#20221F"
-}
-```
-
-仓库已提供 [`examples/style.json`](examples/style.json)，在生成时加上 `--config` 即可：
-
-```bash
-python skills/wenka/scripts/render.py --article article.md --name "你的昵称" --config examples/style.json --output styled-output
-```
-
-[查看全部配置项：尺寸、留白、头像、字号、行距与颜色 →](skills/wenka/references/config.md)
+[参数说明](skills/wenka/references/config.md) · [配置示例](examples/style.json)
 
 </details>
 
-## 使用前，你可能想知道
+## 常见问题
 
 <details>
-<summary><strong>文章会被改写吗？Markdown 支持到什么程度？</strong></summary>
+<summary><strong>会改写原文吗？</strong></summary>
 
-渲染器不改写文章。输入支持 UTF-8 的 `.txt` 和轻量 Markdown：空行分段，`#`、`##`、`###` 作为标题，段内单个换行合并为空格。其他 Markdown 语法按普通文字显示。
-
-正文支持独占一行的本地图片：`![图片说明](assets/photo.png)`。图片路径相对于文章所在目录，图片按比例居中显示，放不下时整张移到下一页；不会裁切或拆开。图片说明用于记录，不显示为图注。
-
-当前不渲染加粗、表格或代码块，不自动下载网络图片。复杂文档请先整理成适合卡片阅读的文本。AI 是否先改写文章，由你的提示词决定。
+默认不删减、不改写。需要精简时，明确告诉 Agent。
 
 </details>
 
 <details>
-<summary><strong>需要付费 API、联网或者登录小红书吗？</strong></summary>
+<summary><strong>支持哪些内容？</strong></summary>
 
-图片生成不需要。安装好 Python 依赖和字体后，渲染器可以离线运行，文章与头像留在本地。生成完成后，由你检查并上传图片。
-
-如果通过云端 AI Agent 使用 Skill，提供给该 Agent 的素材仍按它自身的数据处理方式处理；本项目的渲染脚本不会额外上传。
+支持纯文本、Markdown 标题、段落和本地图片；不渲染加粗、表格或代码块。公众号链接由 Agent 读取，无法读取时粘贴正文即可。
 
 </details>
 
 <details>
-<summary><strong>找不到中文字体，或者提示缺字怎么办？</strong></summary>
+<summary><strong>需要 API Key 吗？</strong></summary>
 
-Ubuntu / Debian 可以安装 Noto CJK：
-
-```bash
-sudo apt-get install fonts-noto-cjk
-```
-
-也可以指定本地字体文件：
-
-```bash
-python skills/wenka/scripts/render.py --article article.md --name "作者" --font /path/to/font.ttc --font-index 0 --output custom-font-output
-```
-
-字体缺字时脚本会报错，请换用覆盖所需文字的字体。当前不支持多字体回退和彩色 emoji。仓库不捆绑系统字体，使用或再分发字体时请遵循其许可证。
+不需要。环境装好后可离线排版，无需登录小红书。渲染器不上传内容；云端 Agent 按其自身规则处理素材。
 
 </details>
 
 <details>
-<summary><strong>长文章会生成多少页？能指定页数吗？</strong></summary>
+<summary><strong>中文缺字怎么办？</strong></summary>
 
-页数由内容长度、字体和可用版面共同决定，当前不提供固定页数参数。段落尽量完整保留，超长段落才按行跨页。可以调整样式，或先自行精简文章。
-
-工具不绑定平台上传数量限制。特别长的文章，请根据发布时的实际限制分组。
+让 Agent 安装宋体或 Noto Serif CJK，也可用 `--font` 指定字体。[安装指南](INSTALL.md)
 
 </details>
 
 <details>
-<summary><strong>除了图片，还会得到什么？</strong></summary>
+<summary><strong>能指定页数吗？</strong></summary>
 
-```text
-my-first-post/
-├── 01.png               第一张卡片
-├── 02.png               后续卡片，按顺序编号
-├── …
-├── contact-sheet.jpg    整组缩略预览
-├── cards.zip            仅含正文 PNG 的压缩包
-└── manifest.json        源文件哈希、样式、分页文字及行框
-```
-
-重新生成时使用新的或空的目录，避免混入上一版图片。发布前建议查看整组预览，再放大检查首张、末张和跨页段落。
+不能。根据文章长度自动分页，不靠缩小字号挤内容。
 
 </details>
 
-## 小工具，也认真对待每一行字
+<details>
+<summary><strong>生成哪些文件？</strong></summary>
 
-仓库包含 [自动化测试](tests/test_render.py)，并通过 GitHub Actions 在 **Windows、macOS、Linux** 上执行。验证内容包括文字完整性、行框边界、中文标点、超长英文、不同画幅和错误输入。
+编号 PNG、整组预览、ZIP 压缩包和排版记录。每次使用新的或空的输出目录。
 
-```bash
-python -m unittest discover -s tests -v
-```
+</details>
 
-发现排版问题？欢迎[提交 Issue](https://github.com/Fangx-AI/wenka/issues)，附上一小段可复现的脱敏文字、字体和配置。也欢迎用 Pull Request 改进排版或补充测试。
+## 开源与反馈
 
-**[MIT 开源](LICENSE)** · 可修改、复用和用于商业项目，请保留许可证声明。文章、头像及字体的使用权需自行确认。本项目与小红书官方无关联。
+[跨平台测试](https://github.com/Fangx-AI/wenka/actions/workflows/test.yml) · [提交问题](https://github.com/Fangx-AI/wenka/issues) · [MIT 许可](LICENSE)
 
----
-
-<div align="center">
-
-**把时间留给写作，把重复的排版交给工具。**
-
-[让 AI 帮你安装 ↑](#如何安装)
-
-</div>
+支持 Windows、macOS、Linux。可修改、商用，需保留许可证；文章、图片和字体需有使用权。
