@@ -1,12 +1,6 @@
 <div align="center">
 
-# 文卡 · Wenka
-
-### 将公众号文章转为小红书卡片。
-
-公众号写完一篇，小红书还要重新排版？<br>
-保留原文，自动分页，生成一组可发布的图文卡片。<br>
-<strong>统一宋体阅读排版 · 六种背景可选 · 默认米白</strong>
+<img src="examples/assets/wenka-cover.png" width="100%" alt="文卡 · Wenka：将公众号文章转为小红书卡片，保留原文、自动分页、极简排版">
 
 <p>
   <a href="https://github.com/Fangx-AI/wenka/actions/workflows/test.yml"><img src="https://github.com/Fangx-AI/wenka/actions/workflows/test.yml/badge.svg" alt="跨平台测试"></a>
