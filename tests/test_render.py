@@ -103,6 +103,27 @@ class RendererTests(unittest.TestCase):
                 if line["kind"] == "heading":
                     self.assertGreaterEqual(len(page) - index - 1, 2)
 
+    def test_background_themes_preserve_layout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            baseline = None
+            for theme, color in render.THEMES.items():
+                result = render.generate(ROOT / "examples/article.md", "作者", tmp / theme,
+                                         font=self.font_path, theme=theme)
+                self.assertEqual(result["theme"], theme)
+                with Image.open(tmp / theme / "01.png") as card:
+                    self.assertEqual(card.getpixel((0, 0)), render.ImageColor.getrgb(color))
+                if baseline is None:
+                    baseline = result
+                self.assertEqual(result["pages"], baseline["pages"])
+                self.assertEqual({k: v for k, v in result["style"].items() if k != "background"},
+                                 {k: v for k, v in baseline["style"].items() if k != "background"})
+            config = tmp / "override.json"
+            config.write_text('{"background": "#ABCDEF"}', encoding="utf-8")
+            self.assertEqual(render.Style.from_file(config, "rose").background, "#ABCDEF")
+            with self.assertRaisesRegex(ValueError, "Unknown theme"):
+                render.Style.from_file(theme="unknown")
+
 
 if __name__ == "__main__":
     unittest.main()

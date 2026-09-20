@@ -2,6 +2,21 @@
 
 UTF-8 JSON 对象；未填写字段沿用默认值。未知字段报错，避免拼写错误被忽略。
 
+## 背景预设
+
+用 `--theme paper|white|cream|sage|mist|rose` 选择背景，默认 `paper`。预设只改变背景颜色，不改变文字、头像、布局或分页。配置文件中的显式值优先于预设；例如指定 `--theme mist` 时，如果 JSON 仍含 `background`，将使用 JSON 的背景色。
+
+| 预设 | 名称 | 背景色 |
+| --- | --- | --- |
+| paper | 米白 | #F8F9F3 |
+| white | 纯白 | #FFFFFF |
+| cream | 奶油 | #FFF2D9 |
+| sage | 浅绿 | #EDF4E8 |
+| mist | 雾蓝 | #EAF2FA |
+| rose | 浅粉 | #F9EBEB |
+
+## 自定义参数
+
 | 字段 | 默认值 | 含义 |
 | --- | --- | --- |
 | width / height | 1080 / 1440 | 图片像素，支持其他竖版或方形比例 |

@@ -126,7 +126,23 @@ python -m pip install -r "$env:USERPROFILE/.codex/skills/article-to-xiaohongshu/
 
 ## 让每一篇都带着你的风格
 
-默认版式已经可以使用。想固定自己的账号风格，只需要保存一份 JSON 配置，之后反复使用。
+**同一种阅读排版，六种背景颜色。** 保留宋体、字号、留白、头像位置和分页方式，通过背景选择你喜欢的氛围。
+
+![六种背景配色，同一页内容与排版](examples/themes/comparison.jpg)
+
+| 米白（默认） | 纯白 | 奶油 | 浅绿 | 雾蓝 | 浅粉 |
+| --- | --- | --- | --- | --- | --- |
+| `paper` | `white` | `cream` | `sage` | `mist` | `rose` |
+
+例如，生成雾蓝背景：
+
+```bash
+python skills/article-to-xiaohongshu/scripts/render.py --article examples/article.md --name "纸上散步" --theme mist --output mist-output
+```
+
+使用 Skill 时，也可以直接说「用雾蓝背景，保持原来的宋体和排版」。
+
+需要进一步调整时，可以保存一份 JSON 配置。**配置中显式填写的字段优先于主题**；要让 `--theme` 决定背景，请不要在 JSON 中填写 `background`。
 
 ```json
 {

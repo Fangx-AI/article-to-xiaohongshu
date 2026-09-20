@@ -17,6 +17,16 @@ from fontTools.ttLib import TTFont
 from PIL import Image, ImageColor, ImageDraw, ImageFont, ImageOps
 
 
+THEMES = {
+    "paper": "#F8F9F3",
+    "white": "#FFFFFF",
+    "cream": "#FFF2D9",
+    "sage": "#EDF4E8",
+    "mist": "#EAF2FA",
+    "rose": "#F9EBEB",
+}
+
+
 @dataclass
 class Style:
     width: int = 1080
@@ -38,14 +48,16 @@ class Style:
     avatar_background: str = "#DCE8DB"
 
     @classmethod
-    def from_file(cls, path=None):
+    def from_file(cls, path=None, theme="paper"):
+        if theme not in THEMES:
+            raise ValueError(f"Unknown theme: {theme}. Choose from {', '.join(THEMES)}.")
         values = json.loads(Path(path).read_text(encoding="utf-8-sig")) if path else {}
         if not isinstance(values, dict):
             raise ValueError("Style config must be a JSON object.")
         unknown = set(values) - set(cls.__dataclass_fields__)
         if unknown:
             raise ValueError(f"Unknown style fields: {', '.join(sorted(unknown))}")
-        style = cls(**values)
+        style = cls(**{"background": THEMES[theme], **values})
         style.validate()
         return style
 
@@ -234,11 +246,11 @@ def make_avatar(path, name, size, font, style):
     return canvas.resize((size, size), Image.Resampling.LANCZOS)
 
 
-def generate(article, name, output, avatar=None, date="", font=None, font_index=0, config=None):
+def generate(article, name, output, avatar=None, date="", font=None, font_index=0, config=None, theme="paper"):
     name = name.strip()
     if not name or "\n" in name or "\n" in date or "\r" in name or "\r" in date:
         raise ValueError("Name must be nonempty; name and date must each be a single line.")
-    style = Style.from_file(config)
+    style = Style.from_file(config, theme)
     output = Path(output)
     if output.exists() and (not output.is_dir() or any(output.iterdir())):
         raise ValueError("Output directory must be empty or new. Choose a new --output.")
@@ -289,7 +301,7 @@ def generate(article, name, output, avatar=None, date="", font=None, font_index=
     manifest = {"schema_version": 1, "source_sha256": hashlib.sha256(source).hexdigest(),
                 "font": font_path.name, "font_index": font_index,
                 "name": name, "date": date, "avatar": "provided" if avatar else "initial-placeholder",
-                "style": asdict(style), "blocks": blocks, "pages": page_data}
+                "theme": theme, "style": asdict(style), "blocks": blocks, "pages": page_data}
     (output / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     with zipfile.ZipFile(output / "cards.zip", "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for page in page_data:
@@ -307,6 +319,7 @@ def main():
     parser.add_argument("--font", help="TTF/OTF/TTC file with all required glyphs")
     parser.add_argument("--font-index", type=int, default=0, help="Face index for a font collection")
     parser.add_argument("--config", help="Optional JSON style overrides")
+    parser.add_argument("--theme", choices=THEMES, default="paper", help="Background preset; config overrides the preset")
     args = parser.parse_args()
     try:
         manifest = generate(**vars(args))
